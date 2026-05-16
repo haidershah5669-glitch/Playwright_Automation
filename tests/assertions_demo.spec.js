@@ -17,75 +17,34 @@ if(isKitchenVisible){
 else{
     console.log('the kitchen is not visible.doing action FALSE');
 }
-//Visible/hidden
 
-})
+//2. Visible/hidden(check actual=expected)
+ await expect(page.getByText('The Kitchen',{exact:false})).toBeVisible(); //is visible
+ // Hey Playwright, look at the current page, find a button that says 'Close' and click it. 
+ // Don't move to the next line of code until you are completely done clicking it."
+ await page.getByRole('link', { name: 'Alert' }).click();
+ //await expect(page.getByText('The Kitchen',{exact:false})).toBeHidden(); //ishidden
+await expect(page.getByText('The Kitchen')).not.toBeHidden();
 
 
-// import test, {page, expect} from '@playwright/test'
-// test('assertions demo', async ({page}) => {
-//    /// await page.goto('https://kitchen.applitools.com/')
-//   // await page.pause()
-// //ASSERTIONS
-// //CHECK ELEMENT 
-//  // await expect(page.getByRole('heading', { name: 'The Kitchen' })).toHaveCount(1);
-// });
+ //3. ELEMETNS ARE ENABLED AND DISBALED
+ await expect(page.getByText('The Kitchen')).toBeEnabled();//(clickable/interactive)
+ await expect(page.getByText('The Kitchen')).not.toBeDisabled();//(greyed out/not interactive)
 
-//   //const myButton =page.locator('#submit-button')
 
-// // Test Case 2: Conditional Logic (The Kitchen Link)
-// test('should click the kitchen link if the button is enabled', async ({ page }) => {
-//     await page.goto('https://kitchen.applitools.com/');
+ //3. TEXT MATCHES VALUE OR NOT (CHECK TEXT)
+ await expect(page.locator('text=The Kitchen')).toHaveText('The Kitchen');
+ await expect(page.locator('text=The Kitchen')).not.toHaveText('ABCD');
 
-//     const myButton = page.locator('#submit-button'); 
-//     const kitchenLink = page.locator('text=The Kitchen');
+ //4. ELEMENT ATTRIBUTE
+// await expect(page.getByRole('link', { name: /alert/i })).toHaveAttribute('href', '/alerts.html');
+// //await expect(page.getByRole('link',{name:'Alert'})).toHaveAttribute('href','/alerts.html');
+// await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);   
 
-//     if (await myButton.isEnabled()) {
-//         await myButton.click();
-//     }
-//     else{
-//       console.log("Button was NOT enabled, skipping click.");
+// 1. First, check the attributes of the link while you are still on the page
+await expect(page.getByRole('link', { name: 'Alert' })).toHaveAttribute('href', '/alerts.html');
+await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);
 
-//     }
-
-//     // if (await kitchenLink.isVisible()) {
-//     //     await kitchenLink.click();
-//         await page.pause(); 
-//   //  }
-// });
-
-// //   if (await myButton.isEnabled)){
-// //     await myButton.click();
-// //   }
-// //   if (await page('Text=the Kitchen')){
-// //      await page.locator('text=The Kitchen').click()
-// //      await page.pause()
-// //}
-// //..............................................
-// // import { test, expect } from '@playwright/test';
-
-// // test('assertions demo', async ({ page }) => {
-// //   // 1. Navigate to the page
-// //   await page.goto('https://kitchen.applitools.com/');
-  
-// //   // 2. ASSERTIONS
-// //   // Verify the heading is present exactly once
-// //   await expect(page.getByRole('heading', { name: 'The Kitchen' })).toHaveCount(1);
-
-// //   // 3. CONDITIONAL CHECK
-// //   // Define the locator for the button
-// //   const myButton = page.locator('#submit-button');
-
-// //   // Correct syntax: await the function call isEnabled()
-// //   if (await myButton.isEnabled()) {
-// //     await myButton.click();
-// //   }
-
-// //   // 4. TEXT LOCATOR CHECK (Modern approach)
-// //   const kitchenHeading = page.locator('text=The Kitchen');
-  
-// //   if (await kitchenHeading.isVisible()) {
-// //     await kitchenHeading.click();
-// //     await page.pause(); // Uncomment if you want to see the state here
-// //   }
-// // });
+// 2. Then, perform the click action afterward
+await page.getByRole('link', { name: 'Alert' }).click();
+});
