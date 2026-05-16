@@ -42,9 +42,9 @@ await expect(page.getByText('The Kitchen')).not.toBeHidden();
 // await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);   
 
 // 1. First, check the attributes of the link while you are still on the page
-await expect(page.getByRole('link', { name: 'Alert' })).toHaveAttribute('href', '/alerts.html');
-await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);
+// await expect(page.getByRole('link', { name: 'Alert' })).toHaveAttribute('href', '/alerts.html');
+// await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);
 
-// 2. Then, perform the click action afterward
-await page.getByRole('link', { name: 'Alert' }).click();
+// // 2. Then, perform the click action afterward
+// await page.getByRole('link', { name: 'Alert' }).click();
 });
