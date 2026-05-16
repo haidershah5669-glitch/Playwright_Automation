@@ -14,6 +14,8 @@ test('SIMS Batch Admission - 5 Students (Alphabets Only)', async ({ page }) => {
  await page.goto('https://appdev.tsssc.edu.pk/site/login');
   await page.getByRole('textbox', { name: 'Username' }).fill('haidershah5669@gmail.com');
   await page.getByRole('textbox', { name: 'Password' }).fill('@@Musa123');
+  await page.getByRole('textbox', { name: 'Username' }).fill('your-email@example.com');
+  await page.getByRole('textbox', { name: 'Password' }).fill('YourSecretPassword123');
   await page.getByRole('button', { name: 'Sign In' }).click();
 
   await page.waitForURL(/dashboard/, { timeout: 30000 });
