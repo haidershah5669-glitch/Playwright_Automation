@@ -2,7 +2,8 @@ import test, {page, expect} from '@playwright/test'
 //import { waitForDebugger } from 'node:inspector'
 test ('Asserstion demo', async({page}) => {
  await page.goto('https://kitchen.applitools.com/')  
- await page.pause()
+await page.pause()
+console.log("Current Browser URL is:", page.url());
 
  //ASSERTIONS
  //1. PRESENT/NOT PRESENT ELEMENTS
@@ -32,19 +33,25 @@ await expect(page.getByText('The Kitchen')).not.toBeHidden();
  await expect(page.getByText('The Kitchen')).not.toBeDisabled();//(greyed out/not interactive)
 
 
- //3. TEXT MATCHES VALUE OR NOT (CHECK TEXT)
- await expect(page.locator('text=The Kitchen')).toHaveText('The Kitchen');
- await expect(page.locator('text=The Kitchen')).not.toHaveText('ABCD');
+ //4. TEXT MATCHES VALUE OR NOT (CHECK TEXT)
 
- //4. ELEMENT ATTRIBUTE
-// await expect(page.getByRole('link', { name: /alert/i })).toHaveAttribute('href', '/alerts.html');
-// //await expect(page.getByRole('link',{name:'Alert'})).toHaveAttribute('href','/alerts.html');
-// await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);   
+ await expect(page.getByText('The Kitchen', { exact: true })).toHaveText('The Kitchen');
+await expect(page.getByText('The Kitchen', { exact: true })).not.toHaveText('ABCD');
 
-// 1. First, check the attributes of the link while you are still on the page
-// await expect(page.getByRole('link', { name: 'Alert' })).toHaveAttribute('href', '/alerts.html');
-// await expect(page.getByRole('link', { name: 'Alert' })).not.toHaveAttribute('class', /.*/);
+//5. element attribute (class, id or any attribute)
+ const alertLink = page.getByRole('link', { name: 'Alert', exact: true }); 
+const triggerAlertBtn = page.getByRole('button', { name: 'Trigger an Alert' });
 
-// // 2. Then, perform the click action afterward
-// await page.getByRole('link', { name: 'Alert' }).click();
+// 5.1. Assert that the button is visible and ready
+await expect(triggerAlertBtn).toBeVisible();
+
+// 5.2. Click the actual button to trigger the browser alert
+await triggerAlertBtn.click();
+
+// Your assertion line
+ // Check what the browser is actually looking at
+
+await expect(page).toHaveURL(/kitchen\.applitools\.com/);
+await page.pause()
+await expect(page).toHaveScreenshot()
 });
